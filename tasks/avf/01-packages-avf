@@ -5,4 +5,4 @@ host_packages+=("kpartx")
 host_packages+=("lvm2")
 
 # Need some compression
-host_packages+=("p7zip")
+host_packages+=("xz-utils")

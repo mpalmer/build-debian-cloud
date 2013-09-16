@@ -1,5 +1,5 @@
-p7zip < "$imagefile" > "${name}.img.7z"
+xz < "$imagefile" > "${name}.img.xz"
 
 rm "$imagefile"
 
-log "Image created as ${name}.img.7z"
+log "Image created as ${name}.img.xz"
