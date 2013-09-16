@@ -10,7 +10,7 @@ fi
 
 insert_task_after $TASK_PACKAGES $plugindir/lvm-root-volume-tasks/01-lvm-package
 
-remove_task "12-format-volume"
+remove_task "12-format-root-volume"
 insert_task_after "11-attach-volume" "$plugindir/lvm-root-volume-tasks/12-partition-and-format-volume"
 remove_task $TASK_MOUNT_VOLUME
 insert_task_before $TASK_BOOTSTRAP "$plugindir/lvm-root-volume-tasks/13-mount-volume"
