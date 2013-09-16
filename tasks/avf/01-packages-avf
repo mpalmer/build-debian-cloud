@@ -1,0 +1,8 @@
+# So we can make our loopback image have partitions
+host_packages+=("kpartx")
+
+# LVM ftw
+host_packages+=("lvm2")
+
+# Need some compression
+host_packages+=("p7zip")

@@ -1,0 +1,10 @@
+# Mount me up, scotty
+
+imagedir="$workspace/target"
+mkdir -p "$imagedir"
+
+mount "$device_path"  "$imagedir"
+mkdir "$imagedir/boot"
+mount "$boot_device_path" "$imagedir/boot"
+
+log "/ and /boot mounted under $imagedir"

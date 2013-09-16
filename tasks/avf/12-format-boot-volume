@@ -1,0 +1,4 @@
+mkfs.ext3 "$boot_device_path"
+tune2fs -i 0 "$boot_device_path"
+
+log "$boot_device_path formatted"

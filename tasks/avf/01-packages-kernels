@@ -1,0 +1,4 @@
+[ $arch = 'amd64' ] && packages+=('linux-image-amd64')
+[ $arch = 'i386' ] && packages+=('linux-image-686')
+
+packages+=('grub-pc')

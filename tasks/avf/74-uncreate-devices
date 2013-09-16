@@ -1,0 +1,9 @@
+# Set up loopback block device, and whack up some partitions
+
+vgchange -an avf-vg0
+
+kpartx -d "$image_device_path"
+
+losetup -d "$image_device_path"
+
+log "Install image block devices removed"

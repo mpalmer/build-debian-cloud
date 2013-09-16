@@ -1,0 +1,21 @@
+# Set up loopback block device, and whack up some partitions
+
+image_device_path="$(losetup -f)"
+
+if ! losetup "${image_device_path}" "$imagefile"; then
+  die "Unable to create volume."
+fi
+
+log "Loopback device for AVF image is ${image_device_path}"
+
+kpartx -a "${image_device_path}"
+
+boot_device_path="/dev/mapper/$(basename "$image_device_path")p1"
+pv_device_path="/dev/mapper/$(basename "$image_device_path")p2"
+
+pvcreate "$pv_device_path"
+vgcreate avf-vg0 "$pv_device_path"
+
+lvcreate -L1G -n root avf-vg0
+
+device_path="/dev/avf-vg0/root"

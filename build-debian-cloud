@@ -42,21 +42,19 @@ device_path=
 imagedir=
 
 
-# Split between platforms: ec2 and gce
 platform_help="build-debian-cloud
-This script creates a Debian Squeeze Image for
-either Amazon Web Services or Google Compute Engine.
+This script creates a Debian image for multiple cloud platforms.
 
 Valid subcommands are:
+    avf    Build an Anchor Virtual Fleet Image
     ec2    Build an Amazon Machine Image
     gce    Build a Google Compute Engine Image
 "
 
 platform=$1
 
-# Figure out which pvGrub kernel ID we need
 case $platform in
-	ec2|gce) shift ;;
+	avf|ec2|gce) shift ;;
 	*)       printf -- "$platform_help"; exit 0  ;;
 esac
 
@@ -103,6 +101,6 @@ for task in ${tasks[*]}; do
 	[ -e $task ] || die "The task $task does not exist."
 	log "Run task: `basename $task`"
 	taskdir=`dirname $task`
-	source $task || true
+	source $task
 done
 unset taskdir

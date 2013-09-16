@@ -1,0 +1,16 @@
+#!/bin/bash
+# Create the disk image
+
+imagefile="$workspace/$name.img"
+dd if=/dev/zero of="$imagefile" bs=1M seek=$((1024*$volume_size)) count=0
+
+log "Disk image '$(basename "$imagefile")' created"
+
+# Create a 256MB /boot partition, then fill the rest of the disk
+# with a PV
+sfdisk -f -u S "$imagefile" <<EOF >/dev/null 2>&1
+2048,524288,83
+526336,,8e
+EOF
+
+log "Disk image partitioned"
