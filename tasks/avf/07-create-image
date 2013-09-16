@@ -2,7 +2,7 @@
 # Create the disk image
 
 imagefile="$workspace/$name.img"
-dd if=/dev/zero of="$imagefile" bs=1M seek=$((1024*$volume_size)) count=0
+dd if=/dev/zero of="$imagefile" bs=1M seek=$((1024*$image_size)) count=0
 
 log "Disk image '$(basename "$imagefile")' created"
 

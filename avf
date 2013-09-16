@@ -1,6 +1,6 @@
 # Default configs
 apt_mirrors='http://http.debian.net/debian'
-volume_size='10'
+image_size='10'
 
 # Build-time info
 build_dir="$(mktemp -d)"
@@ -18,8 +18,8 @@ Options (defaults in ${txtbld}bold${txtdef}):
 ${txtund}Bootstrapping${txtdef}
     --arch ARCH [i386|amd64]      Processor architecture of the image (${txtbld}${arch}${txtdef})
     --codename C [squeeze|wheezy] Debian version codename to bootstrap (${txtbld}${codename}${txtdef})
-    --filesystem FS [ext2..4|xfs] Filesystem of the root volume (${txtbld}${filesystem}${txtdef})
-    --volume-size SIZE            Default size of the root volume in GB (${txtbld}${volume_size}${txtdef})
+    --filesystem FS [ext2..4|xfs] Filesystem of the root partition (${txtbld}${filesystem}${txtdef})
+    --image-size SIZE             Size of the disk image in GB (${txtbld}${image_size}${txtdef})
     --plugin FILE                 Path to plugin script.
                                   Can be specified more than once.
     --name IMAGENAME              The name of the disk image to create.
@@ -45,7 +45,7 @@ while [ $# -gt 0 ]; do
 		--arch)             arch=$2;                       shift 2 ;;
 		--codename)         codename=$2;                   shift 2 ;;
 		--filesystem)       filesystem=$2;                 shift 2 ;;
-		--volume-size)      volume_size=$2;                shift 2 ;;
+		--image-size)       image_size=$2;                 shift 2 ;;
 		--bootstrap-mirror) bootstrap_mirror=$2;           shift 2 ;;
 		--apt-mirrors)      apt_mirrors=$2;                shift 2 ;;
 		--timezone)         timezone=$2;                   shift 2 ;;
@@ -61,7 +61,7 @@ while [ $# -gt 0 ]; do
 done
 
 [ -n "$name" ]             || die "You must specify --name"
-[ "$volume_size" -gt "1" ] || die "--volume-size must be at least 2 (GB)"
+[ "$image_size" -gt "1" ]  || die "--volume-size must be at least 2 (GB)"
 [ "$UID" = "0" ]           || die "This command must be run as root.  Sorry."
 
 # Standard "hook points" for plugins
