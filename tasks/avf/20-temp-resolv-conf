@@ -1,3 +1,0 @@
-# I don't know why this isn't always a problem, but sometimes I need the
-# resolv.conf from the host in order to be able to do anything.
-cp /etc/resolv.conf "$imagedir/etc/resolv.conf"
