@@ -1,8 +1,9 @@
 # So we can make our loopback image have partitions
 host_packages+=("kpartx")
 
-# LVM ftw
+# LVM ftw -- on both host and guest
 host_packages+=("lvm2")
+packages+=("lvm2")
 
 # direct-root is evil
 packages+=("sudo")
