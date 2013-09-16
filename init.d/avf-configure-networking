@@ -2,11 +2,11 @@
 ### BEGIN INIT INFO
 # Provides:       avf-configure-networking
 # X-Start-Before: $network
-# Required-Start: $syslog
+# Required-Start:
 # Required-Stop:  
 # Should-Start:   
 # Should-Stop:    
-# Default-Start:  2 3 4 5
+# Default-Start:  S
 # Default-Stop:   
 # Description:    Configure any network interface that isn't already
 ### END INIT INFO
