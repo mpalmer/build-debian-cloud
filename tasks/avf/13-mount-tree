@@ -3,6 +3,12 @@
 imagedir="$workspace/target"
 mkdir -p "$imagedir"
 
+unmount_tree() {
+	umount "$imagedir/boot"
+	umount "$imagedir"
+}
+cleanups+=("unmount_tree")
+
 mount "$device_path"  "$imagedir"
 mkdir "$imagedir/boot"
 mount "$boot_device_path" "$imagedir/boot"

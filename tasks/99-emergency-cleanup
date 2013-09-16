@@ -1,0 +1,11 @@
+set +e
+
+while [ "${#cleanups[@]}" -gt "0" ]; do
+	# Worst.  Pop().  Ever.
+	func="${cleanups[-1]}"
+	unset cleanups[${#cleanups[@]}-1]
+	
+	$func
+done
+
+set -e

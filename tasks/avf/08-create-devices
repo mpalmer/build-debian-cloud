@@ -6,6 +6,21 @@ if ! losetup "${image_device_path}" "$imagefile"; then
   die "Unable to create volume."
 fi
 
+remove_devices() {
+	if [ -e /dev/avf-vg0 ]; then
+		vgchange -an avf-vg0
+	fi
+	
+	if [ -e "$boot_device_path" ]; then
+		kpartx -d "$image_device_path"
+	fi
+	
+	if losetup -a |grep -q $image_device_path; then
+		losetup -d $image_device_path
+	fi
+}
+cleanups+=("remove_devices")
+
 log "Loopback device for AVF image is ${image_device_path}"
 
 kpartx -a "${image_device_path}"

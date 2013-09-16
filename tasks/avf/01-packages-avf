@@ -4,8 +4,5 @@ host_packages+=("kpartx")
 # LVM ftw
 host_packages+=("lvm2")
 
-# Need some compression
-host_packages+=("xz-utils")
-
 # direct-root is evil
 packages+=("sudo")

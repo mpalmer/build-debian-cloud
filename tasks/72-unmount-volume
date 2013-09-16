@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# cd out of the volume, otherwise we step on our own feet
+cd $scriptdir
+
+# Wait for the volume to idle, maybe the user is currently in it
+while [ -n "`lsof $imagedir`" ]; do
+	log "Waiting for volume to idle, before unmounting."
+	sleep 5
+done
+
 # Unmount the volume
 umount $imagedir
 

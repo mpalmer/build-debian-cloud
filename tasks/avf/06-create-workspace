@@ -1,11 +1,6 @@
 # Prepare safe workspace
 
-# Ensure our temporary loopback device and mount get cleaned up no matter how we
-# exit, even if it's before the usual cleanup steps.
 function cleanup_loopback_mount () {
-	# Disable exit-on-error
-	set +e
-
 	if [ -n "$imagedir" ]; then
 		log "Unmounting $imagedir ahead of unclean exit."
 		umount "${imagedir}/boot"
@@ -20,10 +15,7 @@ function cleanup_loopback_mount () {
 	if [ -d "$workspace" ]; then
 		log "$workspace still exists. Leaving alone for potential debugging."
 	fi
-
-	# Enable exit-on-error
-	set -e
 }
-trap cleanup_loopback_mount ERR EXIT
+cleanups+=("cleanup_loopback_mount")
 
 workspace="$(mktemp -d -t build-debian-cloud.XXXXXXXXXX)"

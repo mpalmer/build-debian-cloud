@@ -25,6 +25,7 @@ exclude_packages=()
 host_packages=()
 plugins=()
 init_scripts=()
+cleanups=()
 
 # General options about the instance
 arch='amd64'
@@ -96,6 +97,9 @@ for plugin in "${plugins[@]}"; do
 done
 unset plugindir
 
+# Make sure we run cleanups regardless of what happened
+trap "source $scriptdir/tasks/99-emergency-cleanup" ERR EXIT
+
 # Source all tasks in the right order
 for task in ${tasks[*]}; do
 	[ -e $task ] || die "The task $task does not exist."
@@ -104,3 +108,6 @@ for task in ${tasks[*]}; do
 	source $task
 done
 unset taskdir
+
+# Cleanups ran OK, won't have to run them again
+trap - ERR EXIT
