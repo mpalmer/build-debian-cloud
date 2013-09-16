@@ -1,0 +1,19 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:       avf-extend-pv
+# Required-Start: $syslog
+# Required-Stop:  
+# Should-Start:   
+# Should-Stop:    
+# Default-Start:  S
+# Default-Stop:   
+# Description:    Make sure our PV is the whole size of the partition
+### END INIT INFO
+
+log() {
+	local p="$(basename $0)"
+	
+	logger -t $p "$@"
+}
+
+log "$(pvresize /dev/vda2)"

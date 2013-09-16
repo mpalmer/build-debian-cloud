@@ -1,2 +1,3 @@
 init_scripts+=("$scriptdir/init.d/avf-setup-user")
 init_scripts+=("$scriptdir/init.d/avf-configure-networking")
+init_scripts+=("$scriptdir/init.d/avf-extend-pv")
