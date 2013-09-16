@@ -1,7 +1,7 @@
 #!/bin/bash
 # Create the disk image
 
-imagefile="$workspace/$name.img"
+imagefile="$originaldir/$name.img"
 dd if=/dev/zero of="$imagefile" bs=1M seek=$((1024*$image_size)) count=0
 
 log "Disk image '$(basename "$imagefile")' created"

@@ -1,5 +1,0 @@
-xz < "$imagefile" > "${name}.img.xz"
-
-rm "$imagefile"
-
-log "Image created as ${name}.img.xz"
