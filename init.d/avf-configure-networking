@@ -2,7 +2,7 @@
 ### BEGIN INIT INFO
 # Provides:       avf-configure-networking
 # X-Start-Before: $network
-# Required-Start:
+# Required-Start: $local_fs
 # Required-Stop:  
 # Should-Start:   
 # Should-Stop:    
@@ -28,12 +28,6 @@ nicparam() {
 
 ENI="/etc/network/interfaces"
 
-# Let's setup /etc/hostname if it doesn't already exist
-if [ ! -e /etc/hostname ]; then
-	wget -qO - $MDS/network/hostname >/etc/hostname
-	hostname -F /etc/hostname
-fi
-
 # Tell IPv6 to accept our specific route RAs
 log "Setting max prefix length to /64"
 for i in /proc/sys/net/ipv6/conf/*; do
@@ -42,7 +36,7 @@ done
 
 # We've got to activate all NICs, so that we can maximise our chances of
 # talking to the MDS
-for iface in ip li sh |egrep -o ' eth[0-9]+'; do
+for iface in $(ip li sh |egrep -o ' eth[0-9]+'); do
 	log "Bringing up $iface"
 	ip link set $iface up
 done
@@ -63,8 +57,15 @@ if [ "$i" = "10" ]; then
 	exit 1
 fi
 
-# If we're here, we can talk to the MDS.  Let's configure all networks for
-# which the MDS has info.
+# If we're here, we can talk to the MDS.  Excellent.
+
+# Let's setup /etc/hostname if it doesn't already exist
+if [ ! -e /etc/hostname ]; then
+	wget -qO - $MDS/network/hostname >/etc/hostname
+	hostname -F /etc/hostname
+fi
+
+# And let's configure all networks for which the MDS has info.
 niclist="$(wget -qO - $MDS/network/interfaces | sed 's%/$%%')"
 
 for nic in $niclist; do

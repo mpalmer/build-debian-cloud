@@ -40,7 +40,7 @@ if [ ! -d "$ssh_dir" ]; then
 	chown avf:avf "$ssh_dir"
 fi
 
-pklist="$(wget -qO - ${MDS}/public_keys}"
+pklist="$(wget -qO - ${MDS}/public_keys)"
 
 for pk in $pklist; do
 	wget -qO - "${MDS}/public_keys/$pk/openssh-key" >> "$authorized_keys"
