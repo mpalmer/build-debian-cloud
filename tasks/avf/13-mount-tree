@@ -4,8 +4,10 @@ imagedir="$workspace/target"
 mkdir -p "$imagedir"
 
 unmount_tree() {
-	umount "$imagedir/boot"
-	umount "$imagedir"
+	if [ -n "$imagedir" ]; then
+		umount "$imagedir/boot"
+		umount "$imagedir"
+	fi
 }
 cleanups+=("unmount_tree")
 
