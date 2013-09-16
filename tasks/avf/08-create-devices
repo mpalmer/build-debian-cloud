@@ -15,7 +15,7 @@ remove_devices() {
 		kpartx -d "$image_device_path"
 	fi
 	
-	if losetup -a |grep -q $image_device_path; then
+	if [ -n "$image_device_path" ]; then
 		losetup -d $image_device_path
 	fi
 }
