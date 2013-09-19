@@ -43,7 +43,7 @@ done
 
 # We'll wait a little while to see if we get a route, but not forever
 i=0
-while i < 10; do
+while [ $i -lt 10 ]; do
 	if ip -6 ro sh | grep -q '^fc0f::/64'; then
 		log "Found route to MDS"
 		break
@@ -65,7 +65,13 @@ if [ ! -e /etc/hostname ]; then
 	hostname -F /etc/hostname
 fi
 
-# And let's configure all networks for which the MDS has info.
+# Everything from here is only necessary if we don't have an
+# /etc/network/interfaces file
+if [ -e /etc/network/interfaces ]; then
+	exit 0
+fi
+
+# Hokay, what NICs have we got?
 niclist="$(wget -qO - $MDS/network/interfaces | sed 's%/$%%')"
 
 for nic in $niclist; do
@@ -76,9 +82,9 @@ for nic in $niclist; do
 
 	log "Configuring $nic"
 		
-	ip4="$(nicparam $nic ip4")
-	ip6="$(nicparam $nic ip6")
-	gw="$(nicparam $nic gw")
+	ip4="$(nicparam $nic ip4)"
+	ip6="$(nicparam $nic ip6)"
+	gw="$(nicparam $nic gw)"
 	
 	if [ -n "$ip4" ]; then
 		cat <<-EOF >>$ENI

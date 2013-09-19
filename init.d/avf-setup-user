@@ -45,4 +45,4 @@ pklist="$(wget -qO - ${MDS}/public_keys)"
 for pk in $pklist; do
 	wget -qO - "${MDS}/public_keys/$pk/openssh-key" >> "$authorized_keys"
 	log "Added public key $pk to avf account"
-fi
+done
