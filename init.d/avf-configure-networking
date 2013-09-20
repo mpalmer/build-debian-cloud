@@ -11,6 +11,8 @@
 # Description:    Configure any network interface that isn't already
 ### END INIT INFO
 
+set -x
+
 MDS="http://[fc0f::fee]/2013-09-14/"
 
 log() {
@@ -84,7 +86,7 @@ for nic in $niclist; do
 		
 	ip4="$(nicparam $nic ip4)"
 	ip6="$(nicparam $nic ip6)"
-	gw="$(nicparam $nic gw)"
+	gw="$(nicparam $nic gateway)"
 	
 	if [ -n "$ip4" ]; then
 		cat <<-EOF >>$ENI
