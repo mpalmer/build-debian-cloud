@@ -11,8 +11,6 @@
 # Description:    Configure any network interface that isn't already
 ### END INIT INFO
 
-set -x
-
 MDS="http://[fc0f::fee]/2013-09-14/"
 
 log() {
