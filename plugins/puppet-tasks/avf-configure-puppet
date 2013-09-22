@@ -26,23 +26,28 @@ log() {
 puppetserver="$(mds puppet/server)"
 
 if [ -z "$puppetserver" ]; then
+	log "No puppet server found; exiting"
 	exit 0
 fi
 
+log "Setting Puppet server to $puppetserver"
 sed -i "s/PUPPETSERVER/$puppetserver/" /etc/puppet/puppet.conf
 
 mkdir -p /var/lib/puppet/ssl/certs
 
 if [ -n "$(mds puppet/ca)" ]; then
+	log "Setting puppet CA cert"
 	mds puppet/ca >/var/lib/puppet/ssl/certs/ca.pem
 fi
 
 if [ -n "$(mds puppet/cert)" ]; then
 	mkdir -p /var/lib/puppet/ssl/certs
+	log "Setting puppet client cert"
 	mds puppet/cert >/var/lib/puppet/ssl/certs/$(hostname -f).pem
 fi
 
 if [ -n "$(mds puppet/key)" ]; then
 	mkdir -p /var/lib/puppet/ssl/certs
-	mds puppet/key >/var/lib/puppet/ssl/private_/$(hostname -f).pem
+	log "Setting puppet client private key"
+	mds puppet/key >/var/lib/puppet/ssl/private_keys/$(hostname -f).pem
 fi
