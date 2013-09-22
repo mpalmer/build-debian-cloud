@@ -13,6 +13,10 @@
 
 MDS="http://[fc0f::fee]/2013-09-14/"
 
+mds() {
+	wget -qO - $MDS/$1
+}
+
 log() {
 	local p="$(basename $0)"
 	
@@ -23,7 +27,7 @@ nicparam() {
 	local nic="$1"
 	local param="$2"
 	
-	wget -qO - $MDS/network/interfaces/$nic/$param
+	mds network/interfaces/$nic/$param
 }
 
 ENI="/etc/network/interfaces"
@@ -61,9 +65,17 @@ fi
 
 # Let's setup /etc/hostname if it doesn't already exist
 if [ ! -e /etc/hostname ]; then
-	wget -qO - $MDS/network/hostname >/etc/hostname
+	mds network/hostname >/etc/hostname
 	hostname -F /etc/hostname
 	echo "127.0.1.1 $(cat /etc/hostname) $(hostname -s)" >>/etc/hosts
+fi
+
+# A resolv.conf is always useful
+if [ ! -e /etc/resolv.conf ]; then
+	cat <<EOF >/etc/resolv.conf
+domain $(cat /etc/hostname | sed 's/^[^.]*\.//')
+nameservers $(mds network/resolvers)
+EOF
 fi
 
 # Everything from here is only necessary if we don't have an
@@ -73,7 +85,7 @@ if [ -e /etc/network/interfaces ]; then
 fi
 
 # Hokay, what NICs have we got?
-niclist="$(wget -qO - $MDS/network/interfaces | sed 's%/$%%')"
+niclist="$(mds network/interfaces | sed 's%/$%%')"
 
 for nic in $niclist; do
 	if grep -q "^iface $nic" $ENI; then
