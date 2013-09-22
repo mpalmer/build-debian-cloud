@@ -72,10 +72,10 @@ fi
 
 # A resolv.conf is always useful
 if [ ! -e /etc/resolv.conf ]; then
-	cat <<EOF >/etc/resolv.conf
-domain $(cat /etc/hostname | sed 's/^[^.]*\.//')
-nameservers $(mds network/resolvers)
-EOF
+	echo "domain $(cat /etc/hostname | sed 's/^[^.]*\.//')" >/etc/resolv.conf
+	for ns in $(mds network/resolvers); do
+		echo "nameserver $ns" >>/etc/resolv.conf
+	done
 fi
 
 # Everything from here is only necessary if we don't have an
