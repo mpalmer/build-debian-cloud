@@ -1,3 +1,7 @@
 init_scripts+=("$scriptdir/init.d/avf-setup-user")
 init_scripts+=("$scriptdir/init.d/avf-configure-networking")
 init_scripts+=("$scriptdir/init.d/avf-extend-pv")
+
+# This is a flag file that allows the avf-extend-pv init script to rewrite
+# the partition table
+touch "$imagedir"/etc/resize-partition-table-please
