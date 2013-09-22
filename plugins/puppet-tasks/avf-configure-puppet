@@ -51,3 +51,20 @@ if [ -n "$(mds puppet/key)" ]; then
 	log "Setting puppet client private key"
 	mds puppet/key >/var/lib/puppet/ssl/private_keys/$(hostname -f).pem
 fi
+
+# Now... run ourselves some Puppet!
+i=0
+
+while [ "$i" -lt "5" ]; do
+	puppetd --test --detailed-exitcodes
+	if [ "$?" != "0" ]; then
+		echo "Not converged yet; let's try again"
+	else
+		break
+	fi
+	i=$(($i+1))
+done
+
+if [ "$i" = "5" ]; then
+	echo "PUPPET FAILED TO CONVERGE.  THIS SUCKS."
+fi
