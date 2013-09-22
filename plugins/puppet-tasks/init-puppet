@@ -31,7 +31,7 @@ EOF
 
 chroot "$imagedir" apt-get install -y puppet
 
-chroot "$imagedir" update-rc.d puppetd disable
+chroot "$imagedir" update-rc.d puppet disable
 
 cat <<EOF >"$imagedir"/etc/puppet/puppet.conf
 [main]
