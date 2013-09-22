@@ -2,6 +2,6 @@
 chroot "$imagedir" adduser --gecos "Automatically created AVF user" \
         --disabled-password --shell /bin/bash avf
 
-echo "avf ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/99_avf
+echo "avf ALL=(ALL) NOPASSWD: ALL" >"${imagedir}/etc/sudoers.d/99_avf"
 
 sed -i "s/^PermitRootLogin yes/PermitRootLogin no/" $imagedir/etc/ssh/sshd_config
