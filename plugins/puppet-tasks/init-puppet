@@ -23,7 +23,13 @@ cat <<EOF >"$imagedir"/etc/apt/sources.list.d/100feature-puppet.list
 deb http://packages.anchor.net.au/feature/puppet/debian $release puppet
 EOF
 
-chroot "$imagedir" apt-get install puppet
+cat <<EOF >>"$imagedir"/etc/apt/preferences
+Package: *
+Pin: release c=puppet
+Pin-Priority: 800
+EOF
+
+chroot "$imagedir" apt-get install -y puppet
 
 chroot "$imagedir" update-rc.d puppetd disable
 
