@@ -1,3 +1,3 @@
 insert_task_after $TASK_APT_UPGRADE $plugindir/puppet-tasks/init-puppet
 
-initscripts+=("$scriptdir/plugins/puppet-tasks/avf-configure-puppet")
+init_scripts+=("$scriptdir/plugins/puppet-tasks/avf-configure-puppet")
