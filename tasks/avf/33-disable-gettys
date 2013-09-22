@@ -1,0 +1,10 @@
+#!/bin/bash
+# Disable most getty processes
+# Just need one for local root override
+inittab="$imagedir/etc/inittab"
+ttyx=':23:respawn:/sbin/getty 38400 tty'
+sed -i "s_^2${ttyx}2_#2${ttyx}2_" $inittab
+sed -i "s_^3${ttyx}3_#3${ttyx}3_" $inittab
+sed -i "s_^4${ttyx}4_#4${ttyx}4_" $inittab
+sed -i "s_^5${ttyx}5_#5${ttyx}5_" $inittab
+sed -i "s_^6${ttyx}6_#6${ttyx}6_" $inittab
