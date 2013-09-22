@@ -63,7 +63,7 @@ fi
 if [ ! -e /etc/hostname ]; then
 	wget -qO - $MDS/network/hostname >/etc/hostname
 	hostname -F /etc/hostname
-	echo "127.0.1.1 $(hostname -f) $(hostname -s)" >>/etc/hosts
+	echo "127.0.1.1 $(cat /etc/hostname) $(hostname -s)" >>/etc/hosts
 fi
 
 # Everything from here is only necessary if we don't have an
