@@ -1,0 +1,48 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:       avf-configure-puppet
+# Required-Start: $network
+# Required-Stop:  
+# Should-Start:   
+# Should-Stop:    
+# Default-Start:  2 3 4 5
+# Default-Stop:   
+# Description:    Retrieve SSH user keys and seed the avf user's authorized_keys
+### END INIT INFO
+
+MDS="http://[fc0f::fee]/2013-09-14/"
+
+mds() {
+	local path="$1"
+	wget -qO - "$MDS/$path"
+}
+
+log() {
+	local p="$(basename $0)"
+	
+	logger -t $p "$@"
+}
+
+puppetserver="$(mds puppet/server)"
+
+if [ -z "$puppetserver" ]; then
+	exit 0
+fi
+
+sed -i "s/PUPPETSERVER/$puppetserver/" /etc/puppet/puppet.conf
+
+mkdir -p /var/lib/puppet/ssl/certs
+
+if [ -n "$(mds puppet/ca)" ]; then
+	mds puppet/ca >/var/lib/puppet/ssl/certs/ca.pem
+fi
+
+if [ -n "$(mds puppet/cert)" ]; then
+	mkdir -p /var/lib/puppet/ssl/certs
+	mds puppet/cert >/var/lib/puppet/ssl/certs/$(hostname -f).pem
+fi
+
+if [ -n "$(mds puppet/key)" ]; then
+	mkdir -p /var/lib/puppet/ssl/certs
+	mds puppet/key >/var/lib/puppet/ssl/private_/$(hostname -f).pem
+fi
