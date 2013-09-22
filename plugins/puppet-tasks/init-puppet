@@ -20,7 +20,7 @@ gAAKCRA6lHasw7+QbhQrAKCMxfKCeCBxWHyK3S1k9ry2dq6y+gCeIudE8S6688MN
 EOF
 
 cat <<EOF >"$imagedir"/etc/apt/sources.list.d/100feature-puppet.list
-deb http://packages.anchor.net.au/feature/puppet/debian $release puppet
+deb http://packages.anchor.net.au/feature/puppet/debian $codename puppet
 EOF
 
 cat <<EOF >>"$imagedir"/etc/apt/preferences
