@@ -10,6 +10,11 @@
 # Description:    Make sure our PV is the whole size of the partition
 ### END INIT INFO
 
+if grep -q avfdebug /proc/cmdline; then
+	set -x
+	trap "sleep 10" EXIT
+fi
+
 log() {
 	local p="$(basename $0)"
 	

@@ -10,6 +10,11 @@
 # Description:    Retrieve SSH user keys and seed the avf user's authorized_keys
 ### END INIT INFO
 
+if grep -q avfdebug /proc/cmdline; then
+	set -x
+	trap "sleep 10" EXIT
+fi
+
 MDS="http://[fc0f::fee]/2013-09-14/"
 
 mds() {
