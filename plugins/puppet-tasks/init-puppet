@@ -29,6 +29,8 @@ Pin: release c=puppet
 Pin-Priority: 800
 EOF
 
+chroot "$imagedir" apt-get update
+
 chroot "$imagedir" apt-get install -y puppet
 
 chroot "$imagedir" update-rc.d puppet disable
