@@ -12,6 +12,10 @@
 
 MDS="http://[fc0f::fee]/2013-09-14/"
 
+mds() {
+	wget -qO - $MDS/$1
+}
+
 log() {
 	local p="$(basename $0)"
 	
@@ -40,9 +44,9 @@ if [ ! -d "$ssh_dir" ]; then
 	chown avf:avf "$ssh_dir"
 fi
 
-pklist="$(wget -qO - ${MDS}/public_keys)"
+pklist="$(mds public_keys)"
 
 for pk in $pklist; do
-	wget -qO - "${MDS}/public_keys/$pk/openssh-key" >> "$authorized_keys"
+	mds "public_keys/$pk/openssh-key" >> "$authorized_keys"
 	log "Added public key $pk to avf account"
 done
